@@ -1,0 +1,13 @@
+start = { SOI ~ WHITE_SPACE* ~ root_section ~ WHITE_SPACE* ~ EOI }
+root_section = { string ~ section_body }
+element = { NEWLINE ~ ws ~ key ~ value }
+key = { string }
+value = { value_simple | value_section } // TODO other types
+value_simple = { indent* ~ string }
+value_section = { section_body }
+section_body = { NEWLINE ~ indent* ~ "{" ~ element* ~ ws ~ "}" }
+
+string = { "\"" ~ string_inner ~ "\"" }
+string_inner = { (!("\"" | "\n" | "\r") ~ ANY)* }
+indent = { " " | "\t" }
+ws = { (NEWLINE | indent)* }
