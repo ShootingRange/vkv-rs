@@ -20,17 +20,10 @@ pub struct KeyValue<'a> {
     value: Value<'a>,
 }
 
-// https://sm.alliedmods.net/new-api/keyvalues/KvDataTypes
 #[derive(Eq, PartialEq, Clone, Debug)]
 pub enum Value<'a> {
     Section(Vec<KeyValue<'a>>),
     String(&'a str),
-    // TODO Int
-    // TODO Float
-    // TODO Ptr
-    // TODO WString
-    // TODO Color
-    // TODO Uint64
 }
 
 pub fn parse_vkv(vkv: &str) -> Result<Root, Box<dyn Error>> {
