@@ -137,15 +137,6 @@ fn parse_string<'a>(pair: Pair<'a, Rule>) -> &'a str {
         .as_str()
 }
 
-impl<'a> From<Root<'a>> for KeyValue<'a> {
-    fn from(root: Root<'a>) -> KeyValue<'a> {
-        KeyValue {
-            key: root.name,
-            value: Value::Section(root.elements),
-        }
-    }
-}
-
 #[cfg(test)]
 mod test {
     use super::*;
