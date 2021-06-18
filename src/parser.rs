@@ -227,21 +227,21 @@ mod test {
     }
 
     #[test]
-    fn string_1() {
+    fn string_empty() {
         let text = "\"\"";
 
         VKVParser::parse(Rule::string, text).unwrap();
     }
 
     #[test]
-    fn string_2() {
+    fn string_no_space() {
         let text = "\"foo\"";
 
         VKVParser::parse(Rule::string, text).unwrap();
     }
 
     #[test]
-    fn string_3() {
+    fn string_with_space() {
         let text = "\"foo bar\"";
 
         let mut parsed: pest::iterators::Pairs<'_, Rule> =
@@ -260,7 +260,7 @@ mod test {
     }
 
     #[test]
-    fn string_4() {
+    fn string_limited_parse() {
         // This should end after the second quote character
         let text = "\"foo\"bar\"";
 
