@@ -33,3 +33,102 @@ impl<'a> From<Root<'a>> for KeyValue<'a> {
         }
     }
 }
+
+impl<'a> From<&Root<'a>> for KeyValue<'a> {
+    fn from(root: &Root<'a>) -> KeyValue<'a> {
+        KeyValue {
+            key: root.name,
+            value: Value::Section(root.elements.clone()),
+        }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn empty_root() {
+        let encoded = Root {
+            name: "root",
+            elements: vec![],
+        };
+
+        assert_eq!(encoded, decode(encode(&encoded).unwrap().as_str()).unwrap())
+    }
+
+    #[test]
+    fn alt_root_name() {
+        let encoded = Root {
+            name: "foo",
+            elements: vec![],
+        };
+
+        assert_eq!(encoded, decode(encode(&encoded).unwrap().as_str()).unwrap())
+    }
+
+    #[test]
+    fn string_key() {
+        let encoded = Root {
+            name: "root",
+            elements: vec![KeyValue {
+                key: "foo",
+                value: Value::String("bar"),
+            }],
+        };
+
+        assert_eq!(encoded, decode(encode(&encoded).unwrap().as_str()).unwrap())
+    }
+
+    #[test]
+    fn empty_sub_section() {
+        let encoded = Root {
+            name: "root",
+            elements: vec![KeyValue {
+                key: "foo",
+                value: Value::Section(vec![]),
+            }],
+        };
+
+        assert_eq!(encoded, decode(encode(&encoded).unwrap().as_str()).unwrap())
+    }
+
+    #[test]
+    fn empty_sub_sub_section() {
+        let encoded = Root {
+            name: "root",
+            elements: vec![KeyValue {
+                key: "foo",
+                value: Value::Section(vec![KeyValue {
+                    key: "bar",
+                    value: Value::Section(vec![]),
+                }]),
+            }],
+        };
+
+        assert_eq!(encoded, decode(encode(&encoded).unwrap().as_str()).unwrap())
+    }
+
+    #[test]
+    fn empty_multiple_key() {
+        let encoded = Root {
+            name: "root",
+            elements: vec![
+                KeyValue {
+                    key: "foo",
+                    value: Value::String("bar"),
+                },
+                KeyValue {
+                    key: "foo",
+                    value: Value::Section(vec![]),
+                },
+                KeyValue {
+                    key: "baz",
+                    value: Value::String("foz"),
+                },
+            ],
+        };
+
+        assert_eq!(encoded, decode(encode(&encoded).unwrap().as_str()).unwrap())
+    }
+}
