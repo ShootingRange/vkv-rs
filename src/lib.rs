@@ -8,18 +8,21 @@ pub use encode::encode_vkv as encode;
 pub use parser::parse_vkv as decode;
 
 #[derive(Eq, PartialEq, Clone, Debug)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Root<'a> {
     name: &'a str,
     elements: Vec<KeyValue<'a>>,
 }
 
 #[derive(Eq, PartialEq, Clone, Debug)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct KeyValue<'a> {
     key: &'a str,
     value: Value<'a>,
 }
 
 #[derive(Eq, PartialEq, Clone, Debug)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Value<'a> {
     Section(Vec<KeyValue<'a>>),
     String(&'a str),

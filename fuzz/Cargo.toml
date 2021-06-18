@@ -13,6 +13,7 @@ libfuzzer-sys = "0.4"
 
 [dependencies.vkv-rs]
 path = ".."
+features = ["arbitrary"]
 
 # Prevent this from interfering with workspaces
 [workspace]
@@ -21,5 +22,11 @@ members = ["."]
 [[bin]]
 name = "fuzz_vkv_parser"
 path = "fuzz_targets/fuzz_vkv_parser.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "fuzz_encode_decode"
+path = "fuzz_targets/fuzz_encode_decode.rs"
 test = false
 doc = false
