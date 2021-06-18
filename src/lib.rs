@@ -1,9 +1,11 @@
 #[macro_use]
 extern crate pest_derive;
 
+mod encode;
 mod parser;
 
-pub use parser::parse_vkv as parse;
+pub use encode::encode_vkv as encode;
+pub use parser::parse_vkv as decode;
 
 #[derive(Eq, PartialEq, Clone, Debug)]
 pub struct Root<'a> {
